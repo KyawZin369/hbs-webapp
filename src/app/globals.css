@@ -7,13 +7,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  font-family: "Roboto", sans-serif;
+  --font-family: "Roboto", sans-serif;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-family)
 }
 
 @layer utilities {
