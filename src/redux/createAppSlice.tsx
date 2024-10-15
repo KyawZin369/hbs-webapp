@@ -1,10 +1,19 @@
+import { userRegisterType } from "@/type/account";
 import { createSlice } from "@reduxjs/toolkit";
 
-export const appSlice = createSlice({
-    name : "todo",
-    initialState: {
-    },
+const initialState : userRegisterType = {
+    name: "",
+    email: "",
+    country: "",
+    password: "",
+    phone_number: "",
+    address: "",
+}
 
+
+export const accountSlice = createSlice({
+    name : "Account",
+    initialState,
     reducers: {
         
     }

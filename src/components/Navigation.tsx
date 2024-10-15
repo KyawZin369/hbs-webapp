@@ -1,3 +1,5 @@
+"use client";
+
 import colors from "@/style/configStyle";
 import {
   Box,
@@ -6,24 +8,96 @@ import {
   Tab,
   Typography,
   Button,
-  Popover,
+  Tooltip,
+  Menu,
+  MenuItem,
+  Dialog,
+  Slide,
 } from "@mui/material";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import AttractionsIcon from "@mui/icons-material/Attractions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { Form } from "./Form";
+import { TransitionProps } from "@mui/material/transitions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function Navigation() {
+interface NaviProps {
+  openModal: boolean;
+  handleCloseModal: () => void;
+  handleOpenModal: () => void;
+  accountActionType: string | undefined;
+  handleAccountType: (accountType: "login" | "register" | undefined) => void;
+}
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<unknown>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function Navigation({
+  openModal,
+  handleCloseModal,
+  handleOpenModal,
+  accountActionType,
+  handleAccountType,
+}: NaviProps) {
   const [value, setValue] = useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userOrNot, setUserOrNot] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isClient, setIsClient] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleTabClick = (routerurl: string) => {
+    if (isClient) {
+      router.push(routerurl);
+    }
+  };
+
+  interface TabItemType {
+    label: string;
+    icon: JSX.Element;
+    iconPosition: "start" | "end";
+    URL: string;
+  }
+
+  type TabInfoType = TabItemType[];
+
+  const TabInfo: TabInfoType = [
+    {
+      label: "Find Your Booking",
+      icon: <ContentPasteSearchIcon />,
+      iconPosition: "start",
+      URL: "/clients/FindBooking",
+    },
+    {
+      label: "City",
+      icon: <LocationCityIcon />,
+      iconPosition: "start",
+      URL: "/clients/City",
+    },
+    {
+      label: "Attraction",
+      icon: <AttractionsIcon />,
+      iconPosition: "start",
+      URL: "/clients/Attraction",
+    },
+  ];
 
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -33,22 +107,11 @@ export default function Navigation() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closeMenu = () => {
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-
-  const router = useRouter();
-
-  const handleClickLogin = () => {
-    router.push("/login");
-  };
-
-  const handleClickRegister = () => {
-    router.push("/signup");
-  };
 
   return (
     <Stack
@@ -61,7 +124,7 @@ export default function Navigation() {
         bgcolor: colors.primaryColor,
       }}
     >
-      <Box width="100%">
+      <Link href="/" style={{ width: "100%" }}>
         <Box padding="15px">
           <Image
             src="/—Pngtree—the building in which hotel_16070495.png"
@@ -73,7 +136,7 @@ export default function Navigation() {
             Care Hotel Booking
           </Typography>
         </Box>
-      </Box>
+      </Link>
       <Box width="100%">
         <Box paddingTop="10px">
           <Tabs
@@ -89,21 +152,17 @@ export default function Navigation() {
               },
             }}
           >
-            <Tab
-              label="Find Your Booking"
-              icon={<ContentPasteSearchIcon />}
-              iconPosition="start"
-            />
-            <Tab
-              label="City"
-              icon={<LocationCityIcon />}
-              iconPosition="start"
-            />
-            <Tab
-              label="Attraction"
-              icon={<AttractionsIcon />}
-              iconPosition="start"
-            />
+            {TabInfo.map((tab, index) => (
+              <Tab
+                key={index}
+                label={tab.label}
+                icon={tab.icon}
+                iconPosition={tab.iconPosition}
+                onClick={() => {
+                  handleTabClick(tab.URL);
+                }}
+              />
+            ))}
           </Tabs>
         </Box>
       </Box>
@@ -129,61 +188,58 @@ export default function Navigation() {
         ) : (
           <Box display="flex" alignItems="center" justifyContent="flex-end">
             <Box>
-              <Button
-                onClick={handleClick}
-                sx={{
-                  width: "120px",
-                  height: "50px",
-                  marginTop: "20px",
-                  bgcolor: "white",
-                  marginRight: "20px",
-                }}
-              >
-                <Typography color={colors.primaryColor} fontWeight={700}>
-                  Register
-                </Typography>
-              </Button>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-              >
-                <Box
+              <Tooltip title="Register/Login" arrow>
+                <Button
+                  onClick={handleClick}
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
                     width: "120px",
+                    height: "50px",
+                    marginTop: "20px",
+                    bgcolor: "white",
+                    marginRight: "20px",
                   }}
                 >
-                  <Button
-                    fullWidth
-                    sx={{ display: "flex", justifyContent: "flex-start" }}
-                    onClick={() => {
-                      handleClickLogin();
-                    }}
-                  >
-                    <LockOpenIcon sx={{ marginRight: "10px" }} />
-                    Login
-                  </Button>
-                  <Button
-                    fullWidth
-                    sx={{ display: "flex", justifyContent: "flex-start" }}
-                    onClick={() => {
-                      handleClickRegister();
-                    }}
-                  >
-                    <HowToRegIcon sx={{ marginRight: "10px" }} />
-                    Register
-                  </Button>
-                </Box>
-              </Popover>
+                  <Typography color={colors.primaryColor} fontWeight={700}>
+                    Register/Login
+                  </Typography>
+                </Button>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={closeMenu}
+                onClick={closeMenu}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleAccountType("login");
+                    handleOpenModal();
+                  }}
+                >
+                  <LockOpenIcon sx={{ marginRight: "10px" }} />
+                  Login
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleAccountType("register");
+                    handleOpenModal();
+                  }}
+                >
+                  <HowToRegIcon sx={{ marginRight: "10px" }} />
+                  Register
+                </MenuItem>
+              </Menu>
+              <Dialog
+                fullScreen
+                open={openModal}
+                onClose={handleCloseModal}
+                TransitionComponent={Transition}
+              >
+                <Form
+                  action={accountActionType}
+                  handleCloseModal={handleCloseModal}
+                />
+              </Dialog>
             </Box>
           </Box>
         )}

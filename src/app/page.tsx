@@ -1,5 +1,4 @@
 "use client";
-import Navigation from "../components/Navigation";
 import { createTheme, Stack, ThemeProvider, CssBaseline } from "@mui/material";
 
 const theme = createTheme({
@@ -9,11 +8,11 @@ const theme = createTheme({
 });
 
 export default function App() {
+
   return (
     <ThemeProvider theme={theme}>
       <Stack>
-        <CssBaseline/>
-        <Navigation />
+        <CssBaseline />
       </Stack>
     </ThemeProvider>
   );
