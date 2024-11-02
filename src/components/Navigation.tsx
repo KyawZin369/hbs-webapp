@@ -200,7 +200,7 @@ export default function Navigation({
                   }}
                 >
                   <Typography color={colors.primaryColor} fontWeight={700}>
-                    Register/Login
+                    Register
                   </Typography>
                 </Button>
               </Tooltip>

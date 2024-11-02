@@ -1,9 +1,11 @@
 "use client";
 
+import { LoginUser, registerUser } from "@/API/userApi";
 import colors from "@/style/configStyle";
 import { userRegisterandLoginType } from "@/type/account";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 
 interface formProp {
   action: string | undefined;
@@ -11,6 +13,11 @@ interface formProp {
 }
 
 export function Form({ action, handleCloseModal }: formProp) {
+
+  const mutation = useMutation((userData: userRegisterandLoginType) =>
+    action === "register" ? registerUser(userData) : LoginUser(userData)
+  );
+
   const { control, handleSubmit } = useForm<userRegisterandLoginType>({
     defaultValues:
       action == "register"
@@ -32,7 +39,15 @@ export function Form({ action, handleCloseModal }: formProp) {
   const OnSubmit: SubmitHandler<userRegisterandLoginType> = async (
     FormData
   ) => {
-    console.log(FormData);
+    mutation.mutate(FormData, {
+      onSuccess : (data) => {
+        console.log(data)
+        handleCloseModal();
+      },
+      onError : (err) => {
+        console.log(err)
+      }
+    })
   };
 
   return (
