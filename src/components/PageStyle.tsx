@@ -1,0 +1,108 @@
+"use client";
+
+import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+
+interface PageStyleProps {
+  pageName: string;
+  searchTitle: string;
+  searchFilterForm: JSX.Element | null;
+  formTypeTitle: string;
+  createdForm: JSX.Element | null;
+  children: React.ReactNode;
+}
+
+export default function PageStyle({
+  pageName,
+  searchTitle,
+  searchFilterForm,
+  formTypeTitle,
+  createdForm,
+  children,
+}: PageStyleProps) {
+  const [openModal, setOpenModal] = useState<"search" | "form" | null>(null);
+
+  const handleOpenModal = (type: "search" | "form") => {
+    setOpenModal(type);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(null);
+  };
+
+  return (
+    <Stack
+      spacing={3}
+      sx={{
+        width: "90%",
+        height: "100%",
+        marginTop: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+      }}
+    >
+      <Stack
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <Typography variant="h5" fontWeight="bold">
+            {pageName}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <Box>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => handleOpenModal("search")}
+            >
+              {searchTitle}
+            </Button>
+            <Modal
+              aria-labelledby="search-modal-title"
+              aria-describedby="search-modal-description"
+              open={openModal === "search"}
+              onClose={handleCloseModal}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box>{searchFilterForm}</Box>
+            </Modal>
+          </Box>
+
+          <Box>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => handleOpenModal("form")}
+            >
+              {formTypeTitle}
+            </Button>
+            <Modal
+              aria-labelledby="form-modal-title"
+              aria-describedby="form-modal-description"
+              open={openModal === "form"}
+              onClose={handleCloseModal}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box>{createdForm}</Box>
+            </Modal>
+          </Box>
+        </Box>
+      </Stack>
+      <Box>{children}</Box>
+    </Stack>
+  );
+}
