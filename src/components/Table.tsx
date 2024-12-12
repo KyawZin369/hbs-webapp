@@ -29,7 +29,7 @@ export default function Table<T>({
 }: TableProps<T>) {
   return (
     <TableContainer component={Paper} sx={containerStyles}>
-      <MuiTable sx={{ minWidth: 650, ...tableStyles }} aria-label="custom table">
+      <MuiTable sx={{ minWidth: 650, ...tableStyles }} aria-label="custom table" stickyHeader>
         <TableHead>
           <TableRow>
             {headers.map((header) => (

@@ -1,6 +1,13 @@
 "use client";
 
-import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Pagination,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 
 interface PageStyleProps {
@@ -10,6 +17,7 @@ interface PageStyleProps {
   formTypeTitle: string;
   createdForm: JSX.Element | null;
   children: React.ReactNode;
+  pageCount: number;
 }
 
 export default function PageStyle({
@@ -19,6 +27,7 @@ export default function PageStyle({
   formTypeTitle,
   createdForm,
   children,
+  pageCount,
 }: PageStyleProps) {
   const [openModal, setOpenModal] = useState<"search" | "form" | null>(null);
 
@@ -35,11 +44,12 @@ export default function PageStyle({
       spacing={3}
       sx={{
         width: "90%",
-        height: "100%",
+        height: "80%",
         marginTop: "20px",
         display: "flex",
         flexDirection: "column",
         alignContent: "center",
+        marginLeft: "10px",
       }}
     >
       <Stack
@@ -50,7 +60,7 @@ export default function PageStyle({
         }}
       >
         <Box>
-          <Typography variant="h5" fontWeight="bold">
+          <Typography marginLeft={3} variant="h4" fontWeight="bold">
             {pageName}
           </Typography>
         </Box>
@@ -102,7 +112,10 @@ export default function PageStyle({
           </Box>
         </Box>
       </Stack>
-      <Box>{children}</Box>
+      <Stack>
+        <Box>{children}</Box>
+        <Pagination count={pageCount} shape="rounded" />
+      </Stack>
     </Stack>
   );
 }

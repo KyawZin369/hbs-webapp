@@ -40,18 +40,74 @@ const hotelData: Hotel[] = [
     rating: 4.2,
     pricePerNight: 200,
   },
+  {
+    id: 1,
+    name: "Grand Plaza",
+    location: "New York",
+    rating: 4.5,
+    pricePerNight: 250,
+  },
+  {
+    id: 2,
+    name: "Sunset Resort",
+    location: "Los Angeles",
+    rating: 4.0,
+    pricePerNight: 180,
+  },
+  {
+    id: 3,
+    name: "Oceanview Inn",
+    location: "Miami",
+    rating: 4.8,
+    pricePerNight: 300,
+  },
+  {
+    id: 4,
+    name: "Mountain Lodge",
+    location: "Denver",
+    rating: 4.2,
+    pricePerNight: 200,
+  },
+  {
+    id: 1,
+    name: "Grand Plaza",
+    location: "New York",
+    rating: 4.5,
+    pricePerNight: 250,
+  },
+  {
+    id: 2,
+    name: "Sunset Resort",
+    location: "Los Angeles",
+    rating: 4.0,
+    pricePerNight: 180,
+  },
+  {
+    id: 3,
+    name: "Oceanview Inn",
+    location: "Miami",
+    rating: 4.8,
+    pricePerNight: 300,
+  },
+  {
+    id: 4,
+    name: "Mountain Lodge",
+    location: "Denver",
+    rating: 4.2,
+    pricePerNight: 200,
+  },
 ];
 
 const hotel = () => {
-
   return (
-    <PageStyle 
+    <PageStyle
       pageName="Hotels"
       searchTitle="Search Hotels"
       formTypeTitle="Add Hotel"
       createdForm={null}
       searchFilterForm={null}
-      >
+      pageCount={3}
+    >
       <div>
         <Table
           headers={["ID", "Name", "Location", "Rating", "Price Per Night"]}
@@ -68,6 +124,8 @@ const hotel = () => {
           containerStyles={{
             margin: "20px",
             boxShadow: "0px 2px 5px rgba(0,0,0,0.2)",
+            maxHeight: "320px",
+            overflow: "auto",
           }}
           emptyMessage="No hotels available"
         />

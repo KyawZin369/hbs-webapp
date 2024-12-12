@@ -50,7 +50,7 @@ export default function SideMenu() {
         width: open ? 240 : 90,
         transition: "width 0.3s",
         overflowX: "hidden",
-        height: "100vh",
+        height: "84vh",
       }}
     >
       <Box
