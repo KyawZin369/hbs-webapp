@@ -30,9 +30,9 @@ export default function SideMenu() {
 
   const MenuItems = [
     { label: "Hotels", icon: <HotelIcon />, route: "/admin/hotel" },
-    { label: "Rooms", icon: <BedIcon />, route: "/rooms" },
-    { label: "Booking", icon: <BookOnlineIcon />, route: "/booking" },
-    { label: "Payment", icon: <AccountBalanceWalletIcon />, route: "/payment" },
+    { label: "Rooms", icon: <BedIcon />, route: "room" },
+    { label: "Booking", icon: <BookOnlineIcon />, route: "booking" },
+    { label: "Payment", icon: <AccountBalanceWalletIcon />, route: "payment" },
     { label: "Admin", icon: <SupervisorAccountIcon />, route: "/admin" }
   ];
 

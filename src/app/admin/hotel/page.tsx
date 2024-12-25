@@ -1,7 +1,9 @@
-import React from "react";
+"use client"
+
 import Table from "../../../components/Table"; // Import the enhanced Table component
 import TableCell from "@mui/material/TableCell/TableCell";
 import PageStyle from "@/components/PageStyle";
+import CreateHotelForm from "./components/hotelCreateUpdate";
 
 interface Hotel {
   id: number;
@@ -97,6 +99,12 @@ const hotelData: Hotel[] = [
     pricePerNight: 200,
   },
 ];
+
+const CreateUpdate = () => {
+  return(
+    <CreateHotelForm/>
+  )
+}
 
 const hotel = () => {
   return (

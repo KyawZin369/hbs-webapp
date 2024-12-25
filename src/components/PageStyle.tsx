@@ -14,10 +14,11 @@ interface PageStyleProps {
   pageName: string;
   searchTitle: string;
   searchFilterForm: JSX.Element | null;
-  formTypeTitle: string;
+  formTypeTitle?: string;
   createdForm: JSX.Element | null;
   children: React.ReactNode;
   pageCount: number;
+  formtypeBoolean?: boolean;
 }
 
 export default function PageStyle({
@@ -28,8 +29,10 @@ export default function PageStyle({
   createdForm,
   children,
   pageCount,
+  formtypeBoolean,
 }: PageStyleProps) {
   const [openModal, setOpenModal] = useState<"search" | "form" | null>(null);
+  const formTypeOptions = formtypeBoolean;
 
   const handleOpenModal = (type: "search" | "form") => {
     setOpenModal(type);
@@ -88,28 +91,30 @@ export default function PageStyle({
             </Modal>
           </Box>
 
-          <Box>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => handleOpenModal("form")}
-            >
-              {formTypeTitle}
-            </Button>
-            <Modal
-              aria-labelledby="form-modal-title"
-              aria-describedby="form-modal-description"
-              open={openModal === "form"}
-              onClose={handleCloseModal}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Box>{createdForm}</Box>
-            </Modal>
-          </Box>
+          {formTypeOptions && (
+            <Box>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleOpenModal("form")}
+              >
+                {formTypeTitle}
+              </Button>
+              <Modal
+                aria-labelledby="form-modal-title"
+                aria-describedby="form-modal-description"
+                open={openModal === "form"}
+                onClose={handleCloseModal}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box>{createdForm}</Box>
+              </Modal>
+            </Box>
+          )}
         </Box>
       </Stack>
       <Stack>
