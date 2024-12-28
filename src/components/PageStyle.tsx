@@ -8,7 +8,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 
 interface PageStyleProps {
   pageName: string;
@@ -19,6 +18,9 @@ interface PageStyleProps {
   children: React.ReactNode;
   pageCount: number;
   formtypeBoolean?: boolean;
+  setOpenModal: (type: "search" | "form" | null) => void;
+  setCloseModal: () => void;
+  openModal: "search" | "form" | null;
 }
 
 export default function PageStyle({
@@ -30,17 +32,14 @@ export default function PageStyle({
   children,
   pageCount,
   formtypeBoolean,
+  setOpenModal,
+  openModal,
+  setCloseModal
 }: PageStyleProps) {
-  const [openModal, setOpenModal] = useState<"search" | "form" | null>(null);
+
   const formTypeOptions = formtypeBoolean;
 
-  const handleOpenModal = (type: "search" | "form") => {
-    setOpenModal(type);
-  };
 
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
 
   return (
     <Stack
@@ -72,7 +71,7 @@ export default function PageStyle({
             <Button
               variant="outlined"
               color="primary"
-              onClick={() => handleOpenModal("search")}
+              onClick={() => setOpenModal("search")}
             >
               {searchTitle}
             </Button>
@@ -80,7 +79,7 @@ export default function PageStyle({
               aria-labelledby="search-modal-title"
               aria-describedby="search-modal-description"
               open={openModal === "search"}
-              onClose={handleCloseModal}
+              onClose={setCloseModal}
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -96,7 +95,7 @@ export default function PageStyle({
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => handleOpenModal("form")}
+                onClick={() => setOpenModal("form")}
               >
                 {formTypeTitle}
               </Button>
@@ -104,7 +103,7 @@ export default function PageStyle({
                 aria-labelledby="form-modal-title"
                 aria-describedby="form-modal-description"
                 open={openModal === "form"}
-                onClose={handleCloseModal}
+                onClose={setCloseModal}
                 sx={{
                   display: "flex",
                   justifyContent: "center",

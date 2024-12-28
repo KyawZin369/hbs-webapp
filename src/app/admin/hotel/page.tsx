@@ -4,6 +4,7 @@ import Table from "../../../components/Table"; // Import the enhanced Table comp
 import TableCell from "@mui/material/TableCell/TableCell";
 import PageStyle from "@/components/PageStyle";
 import CreateHotelForm from "./components/hotelCreateUpdate";
+import { useState } from "react";
 
 interface Hotel {
   id: number;
@@ -100,21 +101,41 @@ const hotelData: Hotel[] = [
   },
 ];
 
-const CreateUpdate = () => {
+interface createUpdateProps {
+  handleClose: () => void;
+}
+
+const CreateUpdate = ({handleClose} : createUpdateProps) => {
   return(
-    <CreateHotelForm/>
+    <CreateHotelForm handleClose = {handleClose}/>
   )
 }
 
-const hotel = () => {
+const Hotel = () => {
+
+  const [openModal, setOpenModal] = useState<"search" | "form" | null>(null);
+
+  const handleOpenModal = (type: "search" | "form" | null) => {
+    setOpenModal(type);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(null);
+  };
+
   return (
     <PageStyle
       pageName="Hotels"
       searchTitle="Search Hotels"
       formTypeTitle="Add Hotel"
-      createdForm={null}
+      formtypeBoolean={true}
+      createdForm={<CreateUpdate handleClose = {handleCloseModal}/>}
       searchFilterForm={null}
       pageCount={3}
+      openModal={openModal}
+      setOpenModal={handleOpenModal}
+      setCloseModal={handleCloseModal}
+
     >
       <div>
         <Table
@@ -142,4 +163,4 @@ const hotel = () => {
   );
 };
 
-export default hotel;
+export default Hotel;
